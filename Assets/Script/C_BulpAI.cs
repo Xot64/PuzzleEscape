@@ -62,8 +62,12 @@ public class C_BulpAI : MonoBehaviour
         if (collision.collider.tag == "board")
         {
             onAir = true;
-            transform.position = new Vector3(Mathf.Floor(transform.position.x) + 0.5f, transform.position.y, Mathf.Floor(transform.position.z) + 0.5f);
         }
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        checkHeight();
     }
 
     bool onSpin = false;
@@ -84,6 +88,45 @@ public class C_BulpAI : MonoBehaviour
         {
             transform.eulerAngles = Vector3.up * direct;
             onSpin = false;
+        }
+    }
+
+    void checkHeight()
+    {
+        Vector3 v0 = new Vector3(Mathf.Floor(transform.position.x + 0.4f) + 0.5f, Mathf.Floor(transform.position.y + 0.4f) + 0.5f, Mathf.Floor(transform.position.z + 0.4f) + 0.5f);
+        Vector3 look = transform.forward;
+        RaycastHit Hit;
+        if (Physics.Raycast(v0, look, out Hit, 0.6f))
+        {
+            Debug.Log(string.Format("I see {0}:{1} onward", Hit.collider.name, Hit.distance));
+            if (Physics.Raycast(v0 + Vector3.up, look, out Hit, 0.6f))
+            {
+                Debug.Log(string.Format("I cannot jump: {0}:{1} ", Hit.collider.name, Hit.distance)); ;
+            }
+            else
+            {
+                Debug.Log("I can jump on");
+            }
+        }
+        else
+        {
+            Debug.Log("I see NO board onward");
+            if (Physics.Raycast(v0 + transform.forward, Vector3.down, out Hit, 0.6f))
+            {
+                Debug.Log(string.Format("I can step on {0}:{1}", Hit.collider.name, Hit.distance)); ;
+            }
+            else
+            {
+                Debug.Log("I cannnot step");
+                if (Physics.Raycast(v0 + transform.forward + Vector3.down, Vector3.down, out Hit, 0.6f))
+                {
+                    Debug.Log(string.Format("I can jump down on {0}:{1}", Hit.collider.name, Hit.distance)); ;
+                }
+                else
+                {
+                    Debug.Log("I cannnot jump");
+                }
+            }
         }
     }
 }
