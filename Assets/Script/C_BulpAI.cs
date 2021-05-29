@@ -7,6 +7,7 @@ public class C_BulpAI : MonoBehaviour
 {
     float g;
     float t;
+    bool finish = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,13 +19,33 @@ public class C_BulpAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("step")) step(stepTime, correctStep);
-        if ((!onAir) && (!onSpin))
+        //if (Input.GetButton("step")) step(stepTime, correctStep);
+        if ((!onAir) && (!onSpin) && (!finish))
         {
-            if (Input.GetButtonDown("left")) direct -= 90f;
+            switch (checkBoxes())
+            {
+                case 0:
+                    step(stepTime, correctStep);
+                    break;
+                case 1:
+                    step(jumpTime, correctJump, 1);
+                    break;
+                case 2:
+                    direct -= 90f;
+                    break;
+                case 3:
+                    step(jumpTime, correctDown, -1);
+                    break;
+                case 4:
+                    finish = true;
+                    break;
+
+
+            }
+         /*   if (Input.GetButtonDown("left")) direct -= 90f;
             if (Input.GetButtonDown("right")) direct += 90f;
             if (Input.GetButtonDown("jump")) step(jumpTime, correctJump, 1);
-            if (Input.GetButtonDown("downJump")) step(jumpTime, correctDown, -1);
+            if (Input.GetButtonDown("downJump")) step(jumpTime, correctDown, -1);*/
         }
         spin();
     }
@@ -67,7 +88,7 @@ public class C_BulpAI : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        checkHeight();
+         checkBoxes();
     }
 
     bool onSpin = false;
@@ -86,47 +107,65 @@ public class C_BulpAI : MonoBehaviour
         }
         else
         {
-            transform.eulerAngles = Vector3.up * direct;
-            onSpin = false;
+            if (onSpin)
+            {
+                transform.eulerAngles = Vector3.up * direct;
+                onSpin = false;
+                checkBoxes();
+            }
         }
     }
 
-    void checkHeight()
+    int checkBoxes()
     {
-        Vector3 v0 = new Vector3(Mathf.Floor(transform.position.x + 0.4f) + 0.5f, Mathf.Floor(transform.position.y + 0.4f) + 0.5f, Mathf.Floor(transform.position.z + 0.4f) + 0.5f);
-        Vector3 look = transform.forward;
-        RaycastHit Hit;
-        if (Physics.Raycast(v0, look, out Hit, 0.6f))
+        // 0 - Шаг вперед
+        // 1 - Прыгнуть вверх
+        // 2 - Прыгнуть невозможно - поворот
+        // 3 - Прыгнуть вниз
+        // 4 - Выход
+        C_BoxCollider[] eyes = transform.GetChild(1).GetComponentsInChildren<C_BoxCollider>();
+        if ((eyes[0].tag == "Finish") || (eyes[1].tag == "Finish") || (eyes[2].tag == "Finish") || (eyes[4].tag == "Finish"))
         {
-            Debug.Log(string.Format("I see {0}:{1} onward", Hit.collider.name, Hit.distance));
-            if (Physics.Raycast(v0 + Vector3.up, look, out Hit, 0.6f))
+            Debug.Log(string.Format("Вижу ВЫХОД"));
+            //finish = true;
+            return 4;
+        }
+        if (eyes[4].tag != "")
+        {
+            Debug.Log(string.Format("Впереди ящик"));
+            if (eyes[3].tag != "")
             {
-                Debug.Log(string.Format("I cannot jump: {0}:{1} ", Hit.collider.name, Hit.distance)); ;
+                Debug.Log(string.Format("Не могу запрыгнуть"));
+                return 2;
             }
             else
             {
-                Debug.Log("I can jump on");
+                Debug.Log(string.Format("Могу запрыгнуть"));
+                return 1;
             }
         }
         else
         {
-            Debug.Log("I see NO board onward");
-            if (Physics.Raycast(v0 + transform.forward, Vector3.down, out Hit, 0.6f))
+            Debug.Log(string.Format("Впереди ящика нет"));
+            if (eyes[5].tag != "")
             {
-                Debug.Log(string.Format("I can step on {0}:{1}", Hit.collider.name, Hit.distance)); ;
+                Debug.Log(string.Format("Могу идти вперед"));
+                return 0;
             }
             else
             {
-                Debug.Log("I cannnot step");
-                if (Physics.Raycast(v0 + transform.forward + Vector3.down, Vector3.down, out Hit, 0.6f))
+                Debug.Log(string.Format("Впереди спуск"));
+                if (eyes[6].tag != "")
                 {
-                    Debug.Log(string.Format("I can jump down on {0}:{1}", Hit.collider.name, Hit.distance)); ;
+                    Debug.Log(string.Format("Могу спрыгнуть"));
+                    return 3;
                 }
                 else
                 {
-                    Debug.Log("I cannnot jump");
+                    Debug.Log(string.Format("Не могу спрыгнуть"));
+                    return 2;
                 }
             }
-        }
+        }    
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class C_Player : MonoBehaviour
 {
+    public GameObject[] Figures;
+    public GameObject cubes;
     public Material[] materials = new Material[3];
     GameObject takingBlock;
     int col = 0;
@@ -87,23 +89,39 @@ public class C_Player : MonoBehaviour
             }
             else
             {
-                takingBlock.transform.position = spawnPoint.position;
-                reColor(0);
+                if (takingBlock != null)
+                {
+                    takingBlock.transform.position = spawnPoint.position;
+                    reColor(0);
+                }
             }
         }
         if ((Input.GetButtonUp("Fire1")) && (takingBlock != null))
         {
-            if (col == 1)
+            if (col != 1)
+            {
                 takingBlock.transform.position = spawnPoint.position;
+
+            }
             takingBlock.layer = 7;
+            Transform[] figure = takingBlock.GetComponentsInChildren<Transform>();
             reColor(0);
             setKinematic(false);
+            foreach (Transform gO in figure)
+            {
+                gO.gameObject.layer = 7;
+                gO.parent = cubes.transform;
+                Destroy(takingBlock);
+            }
+            
+            
             takingBlock = null;
         }
     }
 
     void reColor(int c)
     {
+        col = c;
         for (int i = 0; i < takingBlock.GetComponentsInChildren<Renderer>().Length; i++)
         {
             takingBlock.GetComponentsInChildren<Renderer>()[i].material = materials[c];
