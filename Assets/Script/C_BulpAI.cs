@@ -126,43 +126,43 @@ public class C_BulpAI : MonoBehaviour
         C_BoxCollider[] eyes = transform.GetChild(1).GetComponentsInChildren<C_BoxCollider>();
         if ((eyes[0].tag == "Finish") || (eyes[1].tag == "Finish") || (eyes[2].tag == "Finish") || (eyes[4].tag == "Finish"))
         {
-            Debug.Log(string.Format("Вижу ВЫХОД"));
+         //   Debug.Log(string.Format("Вижу ВЫХОД"));
             //finish = true;
             return 4;
         }
         if (eyes[4].tag != "")
         {
-            Debug.Log(string.Format("Впереди ящик"));
+           // Debug.Log(string.Format("Впереди ящик"));
             if (eyes[3].tag != "")
             {
-                Debug.Log(string.Format("Не могу запрыгнуть"));
+         //       Debug.Log(string.Format("Не могу запрыгнуть"));
                 return 2;
             }
             else
             {
-                Debug.Log(string.Format("Могу запрыгнуть"));
+           //     Debug.Log(string.Format("Могу запрыгнуть"));
                 return 1;
             }
         }
         else
         {
-            Debug.Log(string.Format("Впереди ящика нет"));
+          //  Debug.Log(string.Format("Впереди ящика нет"));
             if (eyes[5].tag != "")
             {
-                Debug.Log(string.Format("Могу идти вперед"));
+           //     Debug.Log(string.Format("Могу идти вперед"));
                 return 0;
             }
             else
             {
-                Debug.Log(string.Format("Впереди спуск"));
+           //     Debug.Log(string.Format("Впереди спуск"));
                 if (eyes[6].tag != "")
                 {
-                    Debug.Log(string.Format("Могу спрыгнуть"));
+            //        Debug.Log(string.Format("Могу спрыгнуть"));
                     return 3;
                 }
                 else
                 {
-                    Debug.Log(string.Format("Не могу спрыгнуть"));
+            //        Debug.Log(string.Format("Не могу спрыгнуть"));
                     return 2;
                 }
             }

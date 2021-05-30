@@ -16,7 +16,7 @@ public class C_Area : MonoBehaviour
         for (int d = 0; d < doors; d++)
         {
             int[] limits = new int[6];
-            int side = Random.Range(0, 2);
+            int side = Random.Range(0, 3);
             switch (side)
             {
                 case 0:
@@ -29,7 +29,7 @@ public class C_Area : MonoBehaviour
                     limits = new int[] { 2, size.x - 3, 0, 0, 2, size.z - 3 };
                     break;
             }
-            doorCoord[d] = new Vector3Int(Random.Range(limits[0], limits[1]), Random.Range(limits[2], limits[3]), Random.Range(limits[4], limits[5]));
+            doorCoord[d] = new Vector3Int(Random.Range(limits[0], limits[1] + 1), Random.Range(limits[2], limits[3] + 1), Random.Range(limits[4], limits[5] + 1));
         }
 
         genWall(floor, area[0], 0, 2);

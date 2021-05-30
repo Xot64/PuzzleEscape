@@ -39,6 +39,10 @@ public class C_MF : MonoBehaviour
     {
         return Mathf.Floor(val * Mathf.Pow(10, d) + 0.5f) / Mathf.Pow(10, d);
     }
+    public static Vector3 Round(Vector3 val, int d)
+    {
+        return new Vector3(Round(val.x,d), Round(val.y, d), Round(val.z, d));
+    }
     public static float NormalAngles(float val)
     {
         float res = val % 360;
@@ -105,6 +109,26 @@ public class C_MF : MonoBehaviour
             res.z *= arg.z;
         }
         return res;
+    }
+
+    public static int rnd (params int[] chances)
+    {
+        int sum = 0;
+        foreach (int chance in chances) sum += chance;
+        int val = Random.Range(0, sum);
+        sum = 0;
+        for (int i = 0; i < chances.Length; i++)
+        {
+            if ((val >= sum) && (val <= sum + chances[i]))
+            {
+                return i;
+            }
+                else
+            {
+                sum += chances[i];
+            }
+        }
+        return -1;
     }
 
 }
