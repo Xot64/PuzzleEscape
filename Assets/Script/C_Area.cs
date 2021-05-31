@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class C_Area : MonoBehaviour
 {
-    public GameObject wall, floor, door, bulpa;
+    public GameObject wall, floor, bulpa;
+    public GameObject[] portals = new GameObject[3];
     public Transform[] area = new Transform[3];
     public Vector3Int size = new Vector3Int(8,8,8);
     public int doors = 1;
@@ -35,7 +36,9 @@ public class C_Area : MonoBehaviour
         genWall(floor, area[0], 0, 2);
         genWall(floor, area[1], 0, 1);
         genWall(floor, area[2], 2, 1);
-        GameObject jumper = Instantiate(bulpa, new Vector3(size.x - 0.5f, 1, -size.z + 0.5f ), Quaternion.identity);
+        GameObject bulpaSpawner = Instantiate(portals[0], new Vector3(size.x - 0.5f, -0.5f, -size.z - 0.5f), Quaternion.identity);
+        
+        GameObject jumper = Instantiate(bulpa, bulpaSpawner.transform.position + Vector3.up, Quaternion.identity);
         jumper.name = "Bulpa";
     }
 
@@ -48,17 +51,23 @@ public class C_Area : MonoBehaviour
     void genWall (GameObject gO, Transform par, int c1, int c2)
     {
         Vector3 offset = Vector3.one / 2f;
+        GameObject portal = portals[2];
+
         if (((c1 == 0) && (c2 == 2)) || ((c1 == 2) && (c2 == 0))) //Пол
         {
             offset += Vector3.down + Vector3.back;
+            portal = portals[1];
         }
         if (((c1 == 0) && (c2 == 1)) || ((c1 == 1) && (c2 == 0))) //Правая стена
         {
             offset += Vector3.zero;
+            portal = portals[2];
         }
         if (((c1 == 1) && (c2 == 2)) || ((c1 == 2) && (c2 == 1))) //Левая стена
         {
             offset += Vector3.back + Vector3.left;
+            portal = portals[2];
+            portal.transform.eulerAngles += 90 * Vector3.up;
         }
             Vector3Int c0 = Vector3Int.zero;
         GameObject generate;
@@ -71,7 +80,8 @@ public class C_Area : MonoBehaviour
                 {
                     if (doorCoord[d] == c0)
                     {
-                        generate = door;
+
+                        generate = portal;
                         continue;
                     }
                 }
