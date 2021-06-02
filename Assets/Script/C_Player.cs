@@ -27,17 +27,25 @@ public class C_Player : MonoBehaviour
         generateFigure();
 
     }
-
+    Vector3[] boxSizes;
+    Transform[] boxes;
     // Update is called once per frame
     void Update()
-    { 
-            if (Input.GetButtonDown("Fire1"))
+    {
+        text[0].text = string.Format("{0}-{1}", C_GameValues.World, C_GameValues.level);
+        if (Input.GetButtonDown("Fire1"))
         {
             Ray ray = gameObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 1000f, 1 << 6))
             {
                 takingBlock = hit.collider.transform.parent.gameObject;
+                boxes = takingBlock.GetComponentsInChildren<Transform>();
+                boxSizes = new Vector3[boxes.Length];
+                for (int i = 0; i < boxes.Length; i++)
+                {
+                    boxSizes[i] = boxes[i].localScale;
+                }
                 setKinematic(true);
                 Debug.Log(string.Format("Take Block: {0}", takingBlock.name));
             }
@@ -52,62 +60,43 @@ public class C_Player : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 1000f, 1 << 7))
             {
-                Vector3 dir = (hit.collider.transform.position - hit.point);
-                Vector3 dir2 = Vector3.zero;
-                string[] m = new string[3];
-                for (int c = 0; c < 3; c++)
-                {
-                    if (Mathf.Abs(dir[c]) == Mathf.Max(Mathf.Abs(dir.x), Mathf.Abs(dir.y), Mathf.Abs(dir.z)))
-                    {
-                        dir2[c] = direct[c] / 2;
-                        m[c] = "()";
-                    }
-                    else
-                    {
-                        dir2[c] = -direct[c] / 2;
-                        m[c] = "  ";
-                    }
-                }
-                /*if (Mathf.Abs(dir.x) == Mathf.Max(Mathf.Abs(dir.x), Mathf.Abs(dir.y), Mathf.Abs(dir.z)))
-                {
-                    dir2.x = offset.x;
-                    m[0] = "()";
-                }
-                else
-                {
-                    dir2.x = -offset.x;
-                    m[0] = "  ";
-                }
+                Vector3 dir;
+                Vector3 dir2;
 
-                if (Mathf.Abs(dir.y) == Mathf.Max(Mathf.Abs(dir.x), Mathf.Abs(dir.y), Mathf.Abs(dir.z)))
+                if (hit.collider.tag == "Wall")
                 {
-                    dir2.y = offset.y;
-                    m[1] = "()";
+                    dir2 = hit.transform.eulerAngles / 90f - direct / 2f;
                 }
                 else
                 {
-                    dir2.y = -offset.y;
-                    m[1] = "  ";
-                }
+                    dir = (hit.collider.transform.position - hit.point);
+                    Vector3 bS = new Vector3 (C_MF.Round(hit.transform.localScale.x,0), C_MF.Round(hit.transform.localScale.y, 0), C_MF.Round(hit.transform.localScale.z, 0));
+                    Vector3 bB = new Vector3(Mathf.Sign(dir.x), Mathf.Sign(dir.y), Mathf.Sign(dir.z)) / 2;
 
-                if (Mathf.Abs(dir.z) == Mathf.Max(Mathf.Abs(dir.x), Mathf.Abs(dir.y), Mathf.Abs(dir.z)))
-                {
-                    dir2.z = offset.z;
-                    m[2] = "()";
+
+                    dir2 = Vector3.zero;
+                    string[] m = new string[3];
+                    for (int c = 0; c < 3; c++)
+                    {
+                        if (Mathf.Abs(dir[c]/bS[c]) == Mathf.Max(Mathf.Abs(dir.x/ bS.x), Mathf.Abs(dir.y / bS.y), Mathf.Abs(dir.z / bS.z)))
+                        {
+                            dir2[c] += direct[c] / 2;
+                            m[c] = "()";
+                        }
+                        else
+                        {
+                            dir2[c] += -direct[c] / 2;
+                            m[c] = "  ";
+                        }
+                    }
+                    dir2 += C_MF.mulVec3((bS - Vector3.one), -bB);
                 }
-                else
-                {
-                    dir2.z = -offset.z;
-                    m[2] = "  ";
-                }
-               /* text[3].text = string.Format("X: {0:f2} \nY: {1:f2} \nZ: {2:f2} \nMAX: {3:f2}", Mathf.Abs(dir.x), Mathf.Abs(dir.y), Mathf.Abs(dir.z), Mathf.Max(Mathf.Abs(dir.x), Mathf.Abs(dir.y), Mathf.Abs(dir.z)));
-                text[0].text = string.Format("{3}X{4}: ({0:f2} + ({1:f2}) = {2:f2}", hit.collider.transform.position.x, dir2.x, hit.collider.transform.position.x + dir2.x, m[0][0], m[0][1]);
-                text[1].text = string.Format("{3}Y{4}: ({0:f2} + ({1:f2}) = {2:f2}", hit.collider.transform.position.y, dir2.y, hit.collider.transform.position.y + dir2.y, m[1][0], m[1][1]);
-                text[2].text = string.Format("{3}Z{4}: ({0:f2} + ({1:f2}) = {2:f2}", hit.collider.transform.position.z, dir2.z, hit.collider.transform.position.z + dir2.z, m[2][0], m[2][1]);
-               */
+                
                 dir2 += hit.collider.transform.position;
-                takingBlock.transform.position = dir2 + 0 * direct / 2;
-                reColor(1);
+
+                takingBlock.transform.position = dir2 + Vector3.up * 0.01f;
+                boxSize(0.99f);
+                reColor(onTrig() ? 2 : 1);
 
             }
             else
@@ -121,12 +110,15 @@ public class C_Player : MonoBehaviour
         }
         if ((Input.GetButtonUp("Fire1")) && (takingBlock != null))
         {
+            takingBlock.transform.localScale = Vector3.one;
+            boxSize(1f);
             switch (col)
             {
                 case 0:
                     takingBlock.transform.position = spawnPoint.position + direct / 2;
                     break;
                 case 1:
+
                     takingBlock.layer = 7;
                     Transform[] figure = takingBlock.GetComponentsInChildren<Transform>();
                     setKinematic(false);
@@ -149,6 +141,7 @@ public class C_Player : MonoBehaviour
 
             }
             reColor(0);
+            
             takingBlock = null;
         }
     }
@@ -159,14 +152,37 @@ public class C_Player : MonoBehaviour
         for (int i = 0; i < takingBlock.GetComponentsInChildren<Renderer>().Length; i++)
         {
             takingBlock.GetComponentsInChildren<Renderer>()[i].material = materials[c];
+            if (col == 0)
+                takingBlock.GetComponentsInChildren<BoxCollider>()[i].tag = "board";
+            else
+                takingBlock.GetComponentsInChildren<BoxCollider>()[i].tag = "Unvis";
         }
     }
 
+    bool onTrig()
+    {
+        C_BoxCollider[] triggers = takingBlock.GetComponentsInChildren<C_BoxCollider>();
+        foreach (C_BoxCollider BC in triggers)
+        {
+            if (BC.trig != null) if (BC.tag != "Unvis") return true;
+        }
+        return false;
+    }
+
+    void boxSize(float s)
+    {
+
+        for (int i = 0; i < boxes.Length; i++)
+        {
+            boxes[i].localScale = s * boxSizes[i];
+        }
+    }
     void setKinematic(bool b)
     {
         for (int i = 0; i < takingBlock.GetComponentsInChildren<Rigidbody>().Length; i++)
         {
             takingBlock.GetComponentsInChildren<Rigidbody>()[i].isKinematic = b;
+            
         }
     }
     void generateFigure()

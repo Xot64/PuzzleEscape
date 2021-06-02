@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806981651378256089}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.14, z: -0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: -1.2, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7978034070486253152}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &4388063354476859754
 Light:
   m_ObjectHideFlags: 0
@@ -118,14 +118,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3438678918499528748}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.473, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.495, y: -0, z: 0}
   m_LocalScale: {x: 0.85, y: 0.05, z: 0.85}
   m_Children:
   - {fileID: 39461026181661543}
   m_Father: {fileID: 3676842453808782195}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!33 &6033662023229054319
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -187,9 +187,9 @@ GameObject:
   - component: {fileID: 3676842453808782204}
   - component: {fileID: 3676842453808782205}
   - component: {fileID: 3676842453808782194}
-  - component: {fileID: 5642689565985030066}
+  - component: {fileID: -2501833274569962034}
   m_Layer: 7
-  m_Name: PortalFloor
+  m_Name: PortalWall
   m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,7 +237,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eece61c4b57e77546b5ece5fcf91e42c, type: 2}
+  - {fileID: 2100000, guid: 2c37d0b9c83a05141beafa1ae27c3b9a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -272,7 +272,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5642689565985030066
+--- !u!114 &-2501833274569962034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b983829bfb510641812ffe93b81eabb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exit: 0
+  exit: 1
   blocks:
   - {fileID: 3676842453808782192, guid: b7ac6fc360535274187f13ad5424ac84, type: 3}
   - {fileID: 3676842453808782192, guid: 15035408b915c1b4b85cf70f5d38482d, type: 3}

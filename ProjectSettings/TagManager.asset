@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - board
+  - Unvis
+  - Bulp
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -14,7 +17,7 @@ TagManager:
   - UI
   - New Block
   - Wall
-  - 
+  - Unvis
   - 
   - 
   - 

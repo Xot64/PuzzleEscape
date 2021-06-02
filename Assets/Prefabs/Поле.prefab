@@ -78,8 +78,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 3676842453808782192, guid: 15035408b915c1b4b85cf70f5d38482d, type: 3}
   floor: {fileID: 3676842453808782192, guid: b7ac6fc360535274187f13ad5424ac84, type: 3}
-  door: {fileID: 3676842453808782192, guid: 4566a8e21f51057449a9d1058431064e, type: 3}
   bulpa: {fileID: 5220072505103461471, guid: af44324a2de13f44a9c927bc05b974a1, type: 3}
+  portals:
+  - {fileID: 3676842453808782192, guid: 76b0906ef7a00534283a859c8da49ad9, type: 3}
+  - {fileID: 3676842453808782192, guid: 8b2b4120d32e6ae429e9574a4daaaa0b, type: 3}
+  - {fileID: 3676842453808782192, guid: 4566a8e21f51057449a9d1058431064e, type: 3}
   area:
   - {fileID: 5136460339696725084}
   - {fileID: 3477871858116041695}
