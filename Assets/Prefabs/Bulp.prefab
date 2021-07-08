@@ -834,7 +834,7 @@ GameObject:
   - component: {fileID: 3868165111338572372}
   - component: {fileID: 9187663499101248284}
   - component: {fileID: 1362579414528819211}
-  - component: {fileID: 8841721049761401781}
+  - component: {fileID: 5252576862838145748}
   m_Layer: 0
   m_Name: Bulp
   m_TagString: Untagged
@@ -869,8 +869,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.46, y: 0.6, z: 0.46}
-  m_Center: {x: 0, y: 0.3, z: 0}
+  m_Size: {x: 0.46, y: 0.15263164, z: 0.46}
+  m_Center: {x: 0, y: 0.07631582, z: 0}
 --- !u!114 &9187663499101248284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,8 +909,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &8841721049761401781
-BoxCollider:
+--- !u!136 &5252576862838145748
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -919,8 +919,9 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &6151799898866290265
 GameObject:

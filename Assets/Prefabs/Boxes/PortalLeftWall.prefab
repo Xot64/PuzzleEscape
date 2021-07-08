@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806981651378256089}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: -1.2, z: -0}
+  m_LocalPosition: {x: -0, y: -6.06, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7978034070486253152}
@@ -40,10 +40,10 @@ Light:
   m_GameObject: {fileID: 806981651378256089}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 0
+  m_Type: 2
   m_Shape: 0
   m_Color: {r: 0, g: 1, b: 0.028794289, a: 0.41960785}
-  m_Intensity: 5
+  m_Intensity: 2
   m_Range: 6
   m_SpotAngle: 135
   m_InnerSpotAngle: 1
@@ -85,7 +85,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 100
+  m_BounceIntensity: 10
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 3676842453808782194}
   - component: {fileID: -2501833274569962034}
   m_Layer: 7
-  m_Name: PortalWall
+  m_Name: PortalLeftWall
   m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

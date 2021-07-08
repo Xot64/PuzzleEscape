@@ -65,7 +65,7 @@ public class C_Player : MonoBehaviour
 
                 if (hit.collider.tag == "Wall")
                 {
-                    dir2 = hit.transform.eulerAngles / 90f - direct / 2f;
+                    dir2 = C_MF.NormalAngles(hit.transform.eulerAngles) / 90f - direct / 2f;
                 }
                 else
                 {
